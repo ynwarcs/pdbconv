@@ -1,5 +1,5 @@
 
-**pdbconv** is a converter for PDB files. It makes it possible to convert native PDB files between their regular MSF format and the new MSFZ format that supports compression. For context, you can read [my blog post](to-do) on the new format.
+**pdbconv** is a converter for PDB files. It makes it possible to convert native PDB files between their regular MSF format and the new MSFZ format that supports compression. For context, you can read [my blog post](https://ynwarcs.github.io/pdbconv-pdb-compression) on the new format.
 
 ### building & running
 - open **pdbconv.sln** in Visual Studio 2022
@@ -64,3 +64,6 @@ Below are some compression ratio benchmarks using different parameters. The resu
 |  MultiFragment |    1048576    |    256   |         19.63%        |
 
 As expected, setting max frps to 2 produces similar results as having set it to 1 (which is essentially the SingleFragment strategy). As we increase the value of the parameter, the compression ratio increases too. On the other hand, increasing the fragment size parameter decreases the compression ratio, as we compress more data at once when our fragments are larger.
+
+### thanks
+This project makes use of [zstd](https://github.com/facebook/zstd). Manual PDB file parsing I implemented was based on the implementation of [raw_pdb](https://github.com/MolecularMatters/raw_pdb). LLVM's [PDB serialization code](https://github.com/llvm-mirror/llvm/tree/2c4ca6832fa6b306ee6a7010bfb80a3f2596f824/lib/DebugInfo/PDB) helped with writing my own.
