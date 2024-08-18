@@ -8,7 +8,7 @@
 
 ### usage
 ```
-Usage: pdbcpy [args]
+Usage: pdbconv [args]
 Arguments:
 (-b) --block_size={value} (default 4096) | Block size value to use for the output MSF streams when using --decompress.
 (-c) --compress | Compress input PDB file to a MSFZ format output file.
