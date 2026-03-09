@@ -1,14 +1,14 @@
 #pragma once
 
+#include <algorithm>
+#include <atomic>
+#include <functional>
 #include <span>
 #include <thread>
-#include <atomic>
-#include <algorithm>
 #include <vector>
-#include <functional>
 
 #ifdef _WIN32
-#include <Windows.h>
+#include <windows.h>
 #endif
 
 namespace ynw

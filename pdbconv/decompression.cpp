@@ -258,7 +258,6 @@ namespace Decompression
 		std::vector<uint32_t>& outBlocksForFreeBlockMap,
 		uint32_t& outNumBlocks)
 	{
-		size_t numBlocksForStreams = 0;
 		size_t totalNumBytesForDirectory = sizeof(uint32_t);
 
 		auto AssignNextNBlocks = [blockSize](const uint32_t nBlocks, uint32_t& currentBlockIndex, std::vector<uint32_t>& outBlockIndices)
@@ -286,7 +285,6 @@ namespace Decompression
 				AssignNextNBlocks(numBlocksRequired, currentBlockIndex, blockIndices);
 
 				totalNumBytesForDirectory += sizeof(uint32_t) + sizeof(uint32_t) * numBlocksRequired;
-				numBlocksForStreams += numBlocksRequired;
 			}
 		}
 
@@ -316,7 +314,6 @@ namespace Decompression
 		const MsfzStream& streamDesc,
 		MutableStreamFixed& outputStream)
 	{
-		uint64_t totalStreamSize = 0;
 		for (const MsfzFragment& fragmentDesc : streamDesc.m_Fragments)
 		{
 			ReadOnlyVector<uint8_t> fragmentData;
@@ -373,7 +370,6 @@ namespace Decompression
 				fragmentData.AssignNonOwned({ chunkData.GetData() + fragmentDesc.m_DataOffset, fragmentDesc.m_DataSize });
 			}
 
-			totalStreamSize += fragmentData.GetSize();
 			outputStream.WriteSpan(fragmentData.GetSpan());
 		}
 	}

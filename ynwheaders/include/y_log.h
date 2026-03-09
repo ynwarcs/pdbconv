@@ -1,11 +1,12 @@
 #pragma once
 
-#include <cstdint>
 #include <algorithm>
-#include <string>
-#include <cstdarg>
+#include <atomic>
 #include <chrono>
+#include <cstdarg>
+#include <cstdint>
 #include <mutex>
+#include <string>
 
 #define LogScoped(message) ynw::LogScopedVar uniqueScopedLog(message)
 #define SuppressLogInScope() ynw::SuppressLogScope uniqueSuppressLog
@@ -72,9 +73,9 @@ namespace ynw
 	{
 		LogProgressTracker(const std::string& message, uint32_t fullProgressValue)
 			: LogScopedVar(message, false)
+			, m_FullProgressValue(fullProgressValue)
 			, m_CurrentProgressValue(0)
 			, m_PercentageValue(0)
-			, m_FullProgressValue(fullProgressValue)
 		{
 		}
 
