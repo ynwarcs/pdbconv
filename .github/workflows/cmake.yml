@@ -1,0 +1,58 @@
+name: CMake Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }} (${{ matrix.compiler }} - ${{ matrix.arch }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            compiler: gcc
+            arch: amd64 # not actually meaningful, just for naming. The image itself is amd64.
+          - os: macos-latest
+            compiler: clang
+            arch: arm64 # not actually meaningful, just for naming. The image itself is arm64.
+          - os: windows-latest
+            compiler: msvc
+            arch: x64
+          - os: windows-latest
+            compiler: msvc
+            arch: x64_x86
+          - os: windows-latest
+            compiler: msvc
+            arch: x64_arm64
+          - os: windows-latest
+            compiler: mingw
+            arch: x64
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Install Ninja (Linux)
+      if: runner.os == 'Linux'
+      run: sudo apt-get update && sudo apt-get install -y ninja-build
+
+    - name: Setup MSVC
+      if: matrix.compiler == 'msvc'
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: ${{ matrix.arch }}
+
+    - name: Configure CMake
+      run: cmake -G Ninja -B build -DCMAKE_BUILD_TYPE=Release -DUSE_BUNDLED_ZSTD=ON
+
+    - name: Build
+      run: cmake --build build --config Release
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: pdbconv-${{ matrix.os }}-${{ matrix.compiler }}-${{ matrix.arch }}
+        path: |
+          build/pdbconv/pdbconv
+          build/pdbconv/pdbconv.exe
+        if-no-files-found: error

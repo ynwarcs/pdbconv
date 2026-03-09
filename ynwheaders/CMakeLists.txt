@@ -1,0 +1,2 @@
+add_library(ynwheaders INTERFACE)
+target_include_directories(ynwheaders INTERFACE include)

@@ -337,7 +337,7 @@ namespace Compression
 
 	void RunCompression(const ProgramCommandLineArgs& args)
 	{
-		SimpleWinFile pdbFile(args.m_InputFilePath.c_str());
+		SimpleFile pdbFile(args.m_InputFilePath.c_str());
 		{
 			LogScoped("Opening input file");
 			if (!pdbFile.Open(false))
@@ -369,7 +369,7 @@ namespace Compression
 			uint32_t numBytesForChunkDataMax = 0;		// note: this is the maximum amount of bytes, not the actual amount of byte that chunk data will take up
 			CalculateOutputRegionSizes(streamInfos, args, numBytesForDirectoryData, numBytesForChunkDescriptors, numBytesForChunkDataMax);
 
-			SimpleWinFile outputFile(args.m_OutputFilePath.c_str());
+			SimpleFile outputFile(args.m_OutputFilePath.c_str());
 			{
 				LogScoped("Opening output file");
 				if (!outputFile.Open(true))

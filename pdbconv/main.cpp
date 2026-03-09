@@ -19,8 +19,6 @@
 #include <map>
 #include <cassert>
 
-#pragma comment(lib, ZSTDLIB_PATH)
-
 using namespace ynw;
 
 static void RegisterCommandLineOptions()

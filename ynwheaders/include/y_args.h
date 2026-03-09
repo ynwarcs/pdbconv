@@ -1,11 +1,12 @@
 #pragma once
 
+#include <algorithm>
+#include <cstdarg>
 #include <cstring>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
-#include <cstdarg>
 
 namespace ynw
 {
@@ -37,6 +38,8 @@ namespace ynw
 		{
 			SetShortLetter(shortLetter);
 		}
+
+		virtual ~CommandLineOption() = default;
 
 		using CustomValidationCallback = bool(*)(const CommandLineOption*);
 
@@ -361,17 +364,17 @@ namespace ynw
 	public:
 		IntegerValueCommandLineOption(const char shortLetter, const char* name, const char* description)
 			: CommandLineOption(shortLetter, name, description)
+			, m_Value(0)
 			, m_MinValue(0)
 			, m_MaxValue(SIZE_MAX)
-			, m_Value(0)
 		{
 			m_RequiresValue = true;
 		}
 		IntegerValueCommandLineOption(const char* name, const char* description)
 			: CommandLineOption(name, description)
+			, m_Value(0)
 			, m_MinValue(0)
 			, m_MaxValue(SIZE_MAX)
-			, m_Value(0)
 		{
 			m_RequiresValue = true;
 		}

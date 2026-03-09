@@ -1,14 +1,14 @@
 #pragma once
 
+#include <algorithm>
+#include <atomic>
+#include <functional>
 #include <span>
 #include <thread>
-#include <atomic>
-#include <algorithm>
 #include <vector>
-#include <functional>
 
 #ifdef _WIN32
-#include <Windows.h>
+#include <windows.h>
 #endif
 
 namespace ynw
@@ -30,7 +30,7 @@ namespace ynw
 				GetSystemInfo(&systemInfo);
 				return static_cast<uint32_t>(systemInfo.dwNumberOfProcessors * k_ThreadUsageRatio);
 #else
-				static_assert(!"Default thread detection not implemented for non-windows platforms.");
+				return static_cast<uint32_t>(std::thread::hardware_concurrency() * k_ThreadUsageRatio);
 #endif
 			}
 		}
@@ -59,7 +59,7 @@ namespace ynw
 		{
 			std::vector<uint32_t> indexQueue;
 			indexQueue.reserve(m_Elements.size());
-			for (uint32_t i = 0; i < m_Elements.size(); ++i)
+			for (uint32_t i = 0; i < (uint32_t)m_Elements.size(); ++i)
 			{
 				indexQueue.push_back(i);
 			}
@@ -73,6 +73,7 @@ namespace ynw
 			}
 
 			std::atomic<size_t> currentWorkingIndex;
+			currentWorkingIndex.store(0);
 			auto workerThreadFn = [&currentWorkingIndex, &indexQueue, &actionFn, this]()
 				{
 					while (true)

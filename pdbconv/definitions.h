@@ -6,20 +6,6 @@
 
 #include "y_misc.h"
 
-#ifdef _WIN64
-#define OUTPUTFOLDER_PLATFORM "x64"
-#else
-#define OUTPUTFOLDER_PLATFORM "Win32"
-#endif
-
-#ifdef _DEBUG
-#define OUTPUTFOLDER_TARGET "Debug"
-#else
-#define OUTPUTFOLDER_TARGET "Release"
-#endif
-
-#define ZSTDLIB_PATH "..\\bin\\" OUTPUTFOLDER_PLATFORM "_" OUTPUTFOLDER_TARGET "\\libzstd_static.lib"
-
 // "Microsoft MSFZ Container\x0D\x0AALD"
 constexpr uint8_t g_MsfzSignatureBytes[] = 
 {
